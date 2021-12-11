@@ -36,26 +36,22 @@ export default class Home extends Vue {
   ];
   loading = false;
 
-  // mounted works fine if your ide complains about it
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  mounted() {
-    this.getData()
-      .then((data: TableData[]) => {
-        this.loading = true;
-        return data.map((dataItem: TableData) => {
-          return {
-            ...dataItem,
-            randomNumber: Math.random(),
-          };
-        });
-      })
-      .then((data: TableData[]) => {
-        this.tableData = data;
-        this.loading = false;
-      })
-      .catch((error) => {
-        console.log(error, "This is not good");
+  // Task Async/Await
+  async mounted() : Promise<void> {
+    try {
+      this.loading = true;
+      const data: TableData[] = await this.getData();
+
+      this.tableData = data.map((dataItem: TableData) : TableData => {
+        return {
+          ...dataItem,
+          randomNumber: Math.random(),
+        };
       });
+      this.loading = false;
+    } catch (error) {
+      console.log(error, "This is not good");
+    }
   }
 
   async getData(): Promise<TableData[]> {
