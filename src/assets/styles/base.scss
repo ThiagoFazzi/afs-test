@@ -7,7 +7,9 @@
 @import './common/globals.scss';
 
 // Mixins
-@import './mixins/theme.scss';
+@import './mixins/_theme.scss';
 
 // Partials
-@import './partials/card.scss';
+@import './partials/_card.scss';
+@import './partials/_form.scss';
+@import './partials/_modal.scss';
