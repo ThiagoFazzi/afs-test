@@ -1,5 +1,5 @@
 <template>
-  <div :class="`card theme-${colorName}`" :data-color="colorHex">
+  <div :class="`card theme-${transferStatusColor()}`">
     <section class="card__shape">
       <div class="card__shape__side">
         <div class="card__shape__inner card__body">
@@ -36,8 +36,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
+import { Vue, Component, Prop } from "vue-property-decorator";
 import { Transaction } from "@/types/types";
 
 @Component({
@@ -46,10 +45,19 @@ import { Transaction } from "@/types/types";
 export default class TransferRow extends Vue {
   @Prop({ required: true }) transfer!: Transaction;
 
-  colorName = 'purple';
-  colorHex = '#BA68C8';
-
-
+  transferStatusColor() : string {
+    const state = this.transfer.state;
+    switch(state) {
+      case 'NEW':
+        return 'purple';
+      case 'MODIFIED':
+        return 'orange';
+      case 'PUBLISHED':
+        return 'green';
+      default:
+        return 'red';
+    }
+  }
 }
 </script>
 
