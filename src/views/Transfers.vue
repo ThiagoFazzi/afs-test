@@ -30,21 +30,15 @@ import transfers from "@/assets/data";
 export default class Transfers extends Vue {
   searchTerms = "";
   transfers = transfers;
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  get searchedTransfers() {
-    if (this.searchTerms) {
-      // custom search, should be improved upon
-      const searchArray: Transaction[] = [];
-      this.transfers.forEach((transfer: Transaction) => {
-        if (
-          transfer.type.toLowerCase().includes(this.searchTerms.toLowerCase())
-        ) {
-          searchArray.push(transfer);
-        }
-      });
-      return searchArray;
-    }
-    return this.transfers;
+
+  // Task searchable by recordDate or type
+  get searchedTransfers() : Transaction[] {
+    return this.searchTerms
+      ? this.transfers.filter((transfer: Transaction) => {
+          return transfer.type.toLowerCase().includes(this.searchTerms.toLowerCase())
+            || transfer.recordDate?.includes(this.searchTerms);
+        })
+      : this.transfers;
   }
 
   updateTransfers(): void {
