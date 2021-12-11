@@ -30,27 +30,30 @@ import transfers from "@/assets/data";
 export default class Transfers extends Vue {
   searchTerms = "";
   transfers = transfers;
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  get searchedTransfers() {
-    if (this.searchTerms) {
-      // custom search, should be improved upon
-      const searchArray: Transaction[] = [];
-      this.transfers.forEach((transfer: Transaction) => {
-        if (
-          transfer.type.toLowerCase().includes(this.searchTerms.toLowerCase())
-        ) {
-          searchArray.push(transfer);
-        }
-      });
-      return searchArray;
-    }
-    return this.transfers;
+
+  // Task searchable by recordDate or type
+  get searchedTransfers() : Transaction[] {
+    return this.searchTerms
+      ? this.transfers.filter((transfer: Transaction) => {
+          return transfer.type.toLowerCase().includes(this.searchTerms.toLowerCase())
+            || transfer.recordDate?.includes(this.searchTerms);
+        })
+      : this.transfers;
   }
 
-  updateTransfers(): void {
-    this.transfers.forEach((transfer) => {
-      transfer.forgottenProperty = `Important data: ${(Math.random() * 100000000).toString().slice(1, 8)}`;
-    });
+  // Task Fix button Update Transfers
+  /*
+    # Comment about the fix #
+      The Update Transfers button is broken by how we execute the function it calls.
+      The method forEach(), used in the updateTransfers(), does not create a new array;
+      instead, it returns 'undefined'. On the other hand, the method map() returns a new
+      array based on the callback function's execution.
+  */
+  public updateTransfers() : void {
+    this.transfers = this.transfers.map((transfer: Transaction) : Transaction => ({
+      ...transfer,
+      forgottenProperty: `Important data: ${(Math.random() * 100000000).toString().slice(1, 8)}`
+    }));
 
     this.transfers[0] = {
       splitFactor: null,

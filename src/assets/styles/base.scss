@@ -1,0 +1,15 @@
+// Base styling for this assignment
+
+// AFS Test
+// Thiago Fazzi
+
+// Custom globals and variables
+@import './common/globals.scss';
+
+// Mixins
+@import './mixins/_theme.scss';
+
+// Partials
+@import './partials/_card.scss';
+@import './partials/_form.scss';
+@import './partials/_modal.scss';

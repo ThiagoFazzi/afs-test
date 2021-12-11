@@ -1,0 +1,14 @@
+// Card theme mixin
+
+// AFS Test
+//Thiago Fazzi
+
+@mixin theme($color) {
+  .card__body__color-bar {
+    background: $color;
+  }
+  .card__body__transfer-path {
+    background: repeating-linear-gradient($color, $color 3px, transparent 3px, transparent 6px);
+    border-color: $color;
+  }
+}

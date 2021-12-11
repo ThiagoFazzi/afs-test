@@ -1,28 +1,69 @@
 <template>
   <div class="home">
     <h1>This is a table with some important data</h1>
-    <b-table :data="tableData" :columns="columns"></b-table>
+    <b-table :data="tableData" :columns="columns" :row-class="highlightTotal"></b-table>
+
+    <button @click="showModal = true">Add New Item</button>
+
+    <modal v-if="showModal" @close="showModal = false">
+      <div slot="header">
+        <h2 >Add New Item</h2>
+      </div>
+      
+      <template slot="body">
+        <form>
+            <div>
+              <label>Security Class</label>
+              <input name="security-class" type="text" v-model="newItem.name"/>
+            </div>
+
+            <div>
+              <label>Authorized Amount</label>
+              <input name="authorized-amount" type="number" v-model="newItem.authorizedAmount"/>
+            </div>
+
+            <div>
+              <label>Issued Amount</label>
+              <input name="issued-amount" type="number" v-model="newItem.issuedAmount"/>
+            </div>
+
+            <div>
+              <label>Authorized Capital</label>
+              <input name="authorized-capital" type="number" v-model="newItem.authorizedCapital"/>
+            </div>
+
+            <div>
+              <label>Issued Capital</label>
+              <input name="issued-capital" type="number" v-model="newItem.issuedCapital"/>
+            </div>
+        </form>
+      </template>
+
+      <button slot="footer" @click="addNewItem">Add</button>
+
+    </modal>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { TableData } from "@/types/types";
+import Modal from '@/components/Modal.vue';
 
-@Component
+@Component({ components: { Modal }})
 export default class Home extends Vue {
   tableData: TableData[] = [];
   columns = [
     {
-      label: "Security class",
+      label: "Security Class",
       field: "name",
     },
     {
-      label: "Authorized amount",
+      label: "Authorized Amount",
       field: "authorizedAmount",
     },
     {
-      label: "Issued amount",
+      label: "Issued Amount",
       field: "issuedAmount",
     },
     {
@@ -30,32 +71,117 @@ export default class Home extends Vue {
       field: "authorizedCapital",
     },
     {
-      label: "Issued capital",
+      label: "Issued Capital",
       field: "issuedCapital",
     },
   ];
   loading = false;
+  showModal = false;
+  newItem = {
+    id: '',
+    name: '',
+    nominalValue: 0,
+    authorizedAmount: 0,
+    issuedAmount: 0,
+    authorizedCapital: 0,
+    issuedCapital: 0,
+  };
 
-  // mounted works fine if your ide complains about it
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  mounted() {
-    this.getData()
-      .then((data: TableData[]) => {
-        this.loading = true;
-        return data.map((dataItem: TableData) => {
-          return {
-            ...dataItem,
-            randomNumber: Math.random(),
-          };
-        });
-      })
-      .then((data: TableData[]) => {
-        this.tableData = data;
-        this.loading = false;
-      })
-      .catch((error) => {
-        console.log(error, "This is not good");
+  // Task Async/Await
+  async mounted() : Promise<void> {
+    try {
+      this.loading = true;
+      const data: TableData[] = await this.getData();
+
+      this.tableData = data.map((dataItem: TableData) : TableData => {
+        return {
+          ...dataItem,
+          randomNumber: Math.random(),
+        };
       });
+
+      //Task Add Total Row in the table
+      this.addTotal(this.tableData);
+
+      this.loading = false;
+    } catch (error) {
+      console.log(error, 'This is not good');
+    }
+  }
+
+  // Task Add Total Row in the table
+  /**
+   * @description Validate if name filed is filled
+   */
+  get validateForm() : boolean {
+    return !!this.newItem.name
+  }
+
+  // Task Add Total Row in the table
+  /**
+   * @description Update total values
+   */
+  addTotal(data: TableData[]) : void {
+    const InitialObject: TableData = {
+      id: 'resultTotal',
+      name: 'Total',
+      nominalValue: 0,
+      authorizedAmount: 0,
+      issuedAmount: 0,
+      authorizedCapital: 0,
+      issuedCapital: 0
+    };
+
+    const total = data.reduce((acc: TableData, curr: TableData) : TableData => {
+      acc.authorizedAmount += +curr.authorizedAmount;
+      acc.issuedAmount += +curr.issuedAmount;
+      acc.authorizedCapital += +curr.authorizedCapital;
+      acc.issuedCapital += +curr.issuedCapital;
+      return acc;
+    }, InitialObject);
+
+    this.tableData = [...this.tableData, total]
+  }
+
+  // Task Add Total Row in the table
+  /**
+   * @description Bold the totals
+   */
+  highlightTotal(row: TableData) : string {
+    return row.id === 'resultTotal' ? 'has-text-weight-bold' : '';
+  }
+
+  // Task Add Total Row in the table
+  /**
+   * @description Clean form
+   */
+  cleanModal() : void {
+    this.newItem = {
+      id: '',
+      name: '',
+      nominalValue: 0,
+      authorizedAmount: 0,
+      issuedAmount: 0,
+      authorizedCapital: 0,
+      issuedCapital: 0
+    }
+  }
+
+  // Task Add Total Row in the table
+  /**
+   * @description Add new item in the table
+   */
+  addNewItem() : void {
+    if (this.validateForm) {
+      const tableDataWithoutTotal = this.tableData.filter((item) => {
+        return item.id !== 'resultTotal';
+      })
+      this.tableData = [...tableDataWithoutTotal, this.newItem];
+      this.addTotal(this.tableData);
+      this.cleanModal();
+      this.showModal = false;
+    }
+
   }
 
   async getData(): Promise<TableData[]> {
@@ -100,3 +226,7 @@ export default class Home extends Vue {
   }
 }
 </script>
+
+<style scoped lang="scss">
+@import '@/assets/styles/base.scss';
+</style>
