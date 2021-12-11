@@ -63,6 +63,6 @@ export default class TransferRow extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 @import '@/assets/styles/base.scss';
 </style>
