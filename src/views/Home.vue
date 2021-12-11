@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <h1>This is a table with some important data</h1>
-    <b-table :data="tableData" :columns="columns"></b-table>
+    <b-table :data="tableData" :columns="columns" :row-class="highlightTotal"></b-table>
   </div>
 </template>
 
@@ -48,10 +48,43 @@ export default class Home extends Vue {
           randomNumber: Math.random(),
         };
       });
+
+      //Task Add Total Row in the table
+      this.addTotal(this.tableData);
+
       this.loading = false;
     } catch (error) {
       console.log(error, "This is not good");
     }
+  }
+
+  // Task Add Total Row in the table
+  addTotal(data: TableData[]) : void {
+    const InitialObject: TableData = {
+      id: "resultTotal",
+      name: "Total",
+      nominalValue: 0,
+      authorizedAmount: 0,
+      issuedAmount: 0,
+      authorizedCapital: 0,
+      issuedCapital: 0
+    };
+
+    const total = data.reduce((acc: TableData, curr: TableData) : TableData => {
+      acc.authorizedAmount += curr.authorizedAmount;
+      acc.issuedAmount += curr.issuedAmount;
+      acc.authorizedCapital += curr.authorizedCapital;
+      acc.issuedCapital += curr.issuedCapital;
+      return acc;
+    }, InitialObject);
+
+    this.tableData = [...this.tableData, total]
+  }
+
+  // Task Add Total Row in the table
+  highlightTotal(row: TableData) : string {
+    console.log(row);
+    return row.id === "resultTotal" ? "has-text-weight-bold" : "";
   }
 
   async getData(): Promise<TableData[]> {
