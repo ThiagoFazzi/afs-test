@@ -41,10 +41,19 @@ export default class Transfers extends Vue {
       : this.transfers;
   }
 
-  updateTransfers(): void {
-    this.transfers.forEach((transfer) => {
-      transfer.forgottenProperty = `Important data: ${(Math.random() * 100000000).toString().slice(1, 8)}`;
-    });
+  // Task Fix button Update Transfers
+  /*
+    # Comment about the fix #
+      The Update Transfers button is broken by how we execute the function it calls.
+      The method forEach(), used in the updateTransfers(), does not create a new array;
+      instead, it returns 'undefined'. On the other hand, the method map() returns a new
+      array based on the callback function's execution.
+  */
+  public updateTransfers() : void {
+    this.transfers = this.transfers.map((transfer: Transaction) : Transaction => ({
+      ...transfer,
+      forgottenProperty: `Important data: ${(Math.random() * 100000000).toString().slice(1, 8)}`
+    }));
 
     this.transfers[0] = {
       splitFactor: null,

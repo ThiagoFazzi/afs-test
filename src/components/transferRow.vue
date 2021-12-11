@@ -8,7 +8,7 @@
           <div class="card__body__divider"></div>
           <div class="card__body__transfer-path"></div>
           <div class="card__body__transfer-from-to">
-            <p v-if="transfer.fromSecurityHolder">{{ transfer.fromSecurityHolder.fullName }}</p>
+            <p v-if="transfer.forgottenProperty">{{ transfer.forgottenProperty }}</p>
             <p v-else>None</p>
             <p v-if="transfer.toSecurityHolder">{{ transfer.toSecurityHolder.fullName }}</p>
             <p v-else>None</p>
@@ -54,6 +54,8 @@ export default class TransferRow extends Vue {
         return 'orange';
       case 'PUBLISHED':
         return 'green';
+      case 'OLD':
+        return 'grey';
       default:
         return 'red';
     }

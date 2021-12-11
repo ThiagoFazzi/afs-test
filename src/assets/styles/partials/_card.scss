@@ -21,6 +21,9 @@
   &.theme-red {
     @include theme($red);
   }
+  &.theme-grey {
+    @include theme($grey);
+  }
 
   &__shape {
     position: absolute;
