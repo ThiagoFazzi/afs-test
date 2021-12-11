@@ -1,0 +1,180 @@
+@import '../common/globals.scss';
+@import '../mixins/_theme.scss';
+
+.card {
+  position: relative;
+  height: 160px;
+  margin-left: 18px;
+  margin-bottom: 15px;
+  max-width: 550px;
+  border-radius: $cardBorderRadius;
+
+  &.theme-purple {
+    @include theme($purple);
+  }
+  &.theme-green {
+    @include theme($green);
+  }
+  &.theme-orange {
+    @include theme($orange);
+  }
+  &.theme-red {
+    @include theme($red);
+  }
+
+  &__shape {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform-origin: 50% 0;
+    border-radius: inherit;
+    transform: rotateX(179deg) translateZ(3px);
+
+    &__side {
+      height: 100%;
+      border-radius: inherit;
+      transform: rotateX(180deg);
+    }
+
+    &__inner {
+      overflow: hidden;
+      position: relative;
+      height: 100%;
+      border-radius: inherit;
+    }
+  }
+
+  &__body {
+    padding: 20px;
+
+    &__color-bar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: .6rem;
+      height: 100%;
+      border-top-left-radius: $cardBorderRadius;
+      border-bottom-left-radius: $cardBorderRadius;
+    }
+
+    &__price {
+      position: absolute;
+      margin-top: -3px;
+      font-weight: normal;
+      font-size: 22px;
+      color: $secondaryValue;
+    }
+
+    &__divider {
+      position: absolute;
+      left: 100px;
+      top: 10px;
+      width: 1px;
+      height: calc(100% - 20px);
+      background: $divider;
+    }
+
+    &__transfer-path {
+      position: absolute;
+      left: 130px;
+      top: 36px;
+      width: 2px;
+      height: 23px;
+
+      &:before,
+      &:after {
+        content: "";
+        position: absolute;
+        left: -3px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        border: 2px solid;
+        border-color: inherit;
+      }
+
+      &:before {
+        top: -11px;
+      }
+      &:after {
+        bottom: -9px;
+      }
+    }
+
+    &__transfer-from-to {
+      position: absolute;
+      left: 120px;
+      top: 20px;
+      width: 500px;
+      font-size: 13px;
+      text-align: left;
+
+      &:before {
+        content: "";
+        position: absolute;
+        left: 1.5rem;
+        top: 50%;
+        width: 75%;
+        height: 1px;
+        background: $divider;
+      }
+
+      p {
+        margin-left: 25px;
+        font-weight: bold;
+        color: $primaryValue;
+      }
+
+      p:first-child {
+        margin-bottom: 15px;
+      }
+    }
+
+    &__date {
+      position: absolute;
+      left: 20px;
+      top: 105px;
+      color: $label;
+      font-size: 12px;
+      padding-right: .5rem;
+      text-align: left;
+      text-transform: uppercase;
+
+      p {
+        color: $primaryValue;
+        font-weight: bold;
+      }
+    }
+
+    &__footer {
+      position: absolute;
+      top: 105px;
+      color: $label;
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: bold;
+      text-align: left;
+
+      p {
+        font-size: 15px;
+        color: $primaryValue;
+        font-weight: bold;
+        text-transform: lowercase;
+      }
+
+      &--position {
+        left: 130px;
+      }
+
+      &--status {
+        left: 230px;
+      }
+
+      &--type {
+        left: 330px;
+      }
+    }
+  }
+}

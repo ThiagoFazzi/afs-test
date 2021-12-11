@@ -1,12 +1,37 @@
 <template>
-  <div class="transfer-row">
-    <h4>{{ transfer.fromSecurityHolder }}</h4>
-    <p>Type: {{ transfer.type }}</p>
-    <p class="transfer-row__state">State: {{ transfer.state }}</p>
-    <p>Amount: {{ transfer.amount }}</p>
-    <span v-if="transfer.forgottenProperty">{{
-      transfer.forgottenProperty
-    }}</span>
+  <div :class="`card theme-${colorName}`" :data-color="colorHex">
+    <section class="card__shape">
+      <div class="card__shape__side">
+        <div class="card__shape__inner card__body">
+          <div class="card__body__color-bar"></div>
+          <h3 class="card__body__price">{{ transfer.amount }}</h3>
+          <div class="card__body__divider"></div>
+          <div class="card__body__transfer-path"></div>
+          <div class="card__body__transfer-from-to">
+            <p v-if="transfer.fromSecurityHolder">{{ transfer.fromSecurityHolder.fullName }}</p>
+            <p v-else>None</p>
+            <p v-if="transfer.toSecurityHolder">{{ transfer.toSecurityHolder.fullName }}</p>
+            <p v-else>None</p>
+          </div>
+          <div class="card__body__date">
+            Date
+            <p>{{ transfer.recordDate }}</p>
+          </div>
+          <div class="card__body__footer card__body__footer--position">
+            Position
+            <p>{{ transfer.positionWithinDay }}</p>
+          </div>
+          <div class="card__body__footer card__body__footer--status">
+            Status
+            <p>{{ transfer.state }}</p>
+          </div>
+          <div class="card__body__footer card__body__footer--type">
+            Type
+            <p>{{ transfer.type }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -20,23 +45,14 @@ import { Transaction } from "@/types/types";
 })
 export default class TransferRow extends Vue {
   @Prop({ required: true }) transfer!: Transaction;
+
+  colorName = 'purple';
+  colorHex = '#BA68C8';
+
+
 }
 </script>
 
 <style lang="scss">
-.transfer-row {
-  border: 1px solid blue;
-  margin: 1rem;
-  max-width: 500px;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-
-  &__state {
-    border: 1px solid hotpink;
-    width: fit-content;
-    display: block;
-  }
-}
+@import '@/assets/styles/base.scss';
 </style>
