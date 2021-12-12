@@ -7,34 +7,34 @@
 
     <modal v-if="showModal" @close="showModal = false">
       <div slot="header">
-        <h2 >Add New Item</h2>
+        <h1>Add New Item</h1>
       </div>
       
       <template slot="body">
-        <form>
+        <form class="form">
             <div>
-              <label>Security Class</label>
-              <input name="security-class" type="text" v-model="newItem.name"/>
+              <label class="form__label">Security Class</label>
+              <input name="security-class" type="text" v-model="newItem.name" class="form__input"/>
             </div>
 
             <div>
-              <label>Authorized Amount</label>
-              <input name="authorized-amount" type="number" v-model="newItem.authorizedAmount"/>
+              <label class="form__label">Authorized Amount</label>
+              <input name="authorized-amount" type="number" v-model="newItem.authorizedAmount" class="form__input"/>
             </div>
 
             <div>
-              <label>Issued Amount</label>
-              <input name="issued-amount" type="number" v-model="newItem.issuedAmount"/>
+              <label class="form__label">Issued Amount</label>
+              <input name="issued-amount" type="number" v-model="newItem.issuedAmount" class="form__input"/>
             </div>
 
             <div>
-              <label>Authorized Capital</label>
-              <input name="authorized-capital" type="number" v-model="newItem.authorizedCapital"/>
+              <label class="form__label">Authorized Capital</label>
+              <input name="authorized-capital" type="number" v-model="newItem.authorizedCapital" class="form__input"/>
             </div>
 
             <div>
-              <label>Issued Capital</label>
-              <input name="issued-capital" type="number" v-model="newItem.issuedCapital"/>
+              <label class="form__label">Issued Capital</label>
+              <input name="issued-capital" type="number" v-model="newItem.issuedCapital" class="form__input"/>
             </div>
         </form>
       </template>
@@ -175,13 +175,12 @@ export default class Home extends Vue {
     if (this.validateForm) {
       const tableDataWithoutTotal = this.tableData.filter((item) => {
         return item.id !== 'resultTotal';
-      })
+      });
       this.tableData = [...tableDataWithoutTotal, this.newItem];
       this.addTotal(this.tableData);
       this.cleanModal();
       this.showModal = false;
     }
-
   }
 
   async getData(): Promise<TableData[]> {

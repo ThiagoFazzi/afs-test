@@ -1,30 +1,23 @@
 <template>
-  <transition name="modal">
-    <div class="modal-mask">
-      <div class="modal-mask__wrapper">
-        <div class="modal-mask__container">
+  <div class="modal__overlay">
+    <div class="modal__wrapper">
+      <div class="modal__container">
 
-          <div class="modal-mask__header">
-            <slot name="header">
-              default header
-            </slot>
-          </div>
+        <div class="modal__header">
+          <slot name="header"></slot>
+        </div>
 
-          <div class="modal-mask__body">
-            <slot name="body">
-              default body
-            </slot>
-          </div>
+        <div class="modal__body">
+          <slot name="body"></slot>
+        </div>
 
-          <div class="modal-mask__footer">
-            <slot name="footer">
-              default footer
-            </slot>
-          </div>
+        <div class="modal__footer">
+          <slot name="footer" class="modal__footer--item"></slot>
+          <button class="modal__footer--last-item" @click="$emit('close')">Close</button>
         </div>
       </div>
     </div>
-  </transition>
+  </div>
 </template>
 
 <script lang="ts">
