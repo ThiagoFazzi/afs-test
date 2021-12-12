@@ -5,19 +5,28 @@
 
 // Colors
 $purple: #BA68C8;
-$green: #52A43A;
+$green: #42b983;
 $orange: #F7AA17;
 $red: #EF5350;
 $grey: #746E6E;
+$white: #FFFFFF;
+$overlay: rgba(0,0,0, 0.16);
+
+$colors: (
+  purple: $purple, 
+  green: $green, 
+  orange: $orange,
+  red: $red,
+  grey: $grey
+);
 
 $divider: #ECECEC;
 $label: #B5B5B5;
 $primaryValue: #83878b;
 $secondaryValue: #5e5f60;
 
-
-// Card
-$cardBorderRadius: 15px;
+// Border
+$borderRadius: 15px;
 
 // Font
 $fontFamily: Avenir, Helvetica, Arial, sans-serif;

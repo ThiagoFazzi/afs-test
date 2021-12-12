@@ -5,16 +5,16 @@
 
 @import '../common/globals.scss';
 
-.modal-mask {
-  position: fixed;
-  z-index: 9998;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: table;
-  transition: opacity 0.3s ease;
+.modal {
+  &__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $overlay;
+    display: table;
+  }
 
   &__wrapper {
     display: table-cell;
@@ -25,18 +25,19 @@
     width: 400px;
     margin: 0px auto;
     padding: 20px 30px;
-    background-color: #fff;
-    border-radius: 2px;
+    background-color: $white;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-    transition: all 0.3s ease;
-    font-family: Helvetica, Arial, sans-serif;
+    font-family: $fontFamily;
+    border-radius: $borderRadius;
   }
 
   &__header {
     margin-top: 0;
-    font-family: $fontFamily;
-    color: #42b983;
-    font-weight: bold;
+    color: $green;
+
+    h1 {
+      font-weight: bold;
+    }
   }
   
   &__body {
@@ -45,6 +46,18 @@
   }
   
   &__footer {
+    display: flex;
     width: 100%;
+    justify-content: right;
+
+    :nth-child(n+1) {
+      margin-right: .3rem;
+    }
+
+    :last-child {
+      margin: 0;
+    }
+
+
   }
 }
